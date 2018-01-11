@@ -30,14 +30,10 @@ extension AudioPlayerManager {
 		if let firstPlayableItem = AudioURLTrack.firstPlayableItem(urlsToPlay, at: startIndex) {
 			// Play the first track directly
 			self.play(firstPlayableItem.track)
-			// Split the tracks into an array which contain the ones which have to be prepended and appended to queue
-			var urlsToPrepend = Array(urlsToPlay)
-			if (firstPlayableItem.index > 0) {
-				// If the index of the first playable URL is greater than 0 there are URL to prepend
-				urlsToPrepend.removeSubrange(firstPlayableItem.index..<urlsToPrepend.count)
-			}
-			var urlsToAppend = Array(urlsToPlay)
-			urlsToAppend.removeSubrange(0..<(firstPlayableItem.index + 1))
+            
+            // Split the tracks into an array which contain the ones which have to be prepended and appended to queue
+            let urlsToPrepend = startIndex == 0 ? [] : Array(urlsToPlay[0 ..< startIndex])
+            let urlsToAppend = startIndex == urlsToPlay.count-1 ? [] : Array(urlsToPlay[startIndex+1 ..< urlsToPlay.count])
 			// Append the remaining URL to the queue in the background
 			// As the creation of the tracks takes some time, we avoid a blocked UI
 			self.addToQueueInBackground(prepend: urlsToPrepend, append: urlsToAppend, to: self.queueGeneration)
