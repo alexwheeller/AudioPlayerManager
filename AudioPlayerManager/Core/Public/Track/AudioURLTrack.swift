@@ -117,14 +117,14 @@ open class AudioURLTrack: AudioTrack {
 	}
 
 	fileprivate func extractMetadata() {
-		Log("Extracting meta data of player item with url: \(url)")
+        Log("Extracting meta data of player item with url: \(String(describing: url))")
 		for metadataItem in (self.playerItem?.asset.commonMetadata ?? []) {
 			if let _key = metadataItem.commonKey {
 				switch _key {
-				case AVMetadataCommonKeyTitle		: self.nowPlayingInfo?[MPMediaItemPropertyTitle] = metadataItem.stringValue as NSObject?
-				case AVMetadataCommonKeyAlbumName	: self.nowPlayingInfo?[MPMediaItemPropertyAlbumTitle] = metadataItem.stringValue as NSObject?
-				case AVMetadataCommonKeyArtist		: self.nowPlayingInfo?[MPMediaItemPropertyArtist] = metadataItem.stringValue as NSObject?
-				case AVMetadataCommonKeyArtwork		:
+                case AVMetadataKey.commonKeyTitle		: self.nowPlayingInfo?[MPMediaItemPropertyTitle] = metadataItem.stringValue as NSObject?
+                case AVMetadataKey.commonKeyAlbumName	: self.nowPlayingInfo?[MPMediaItemPropertyAlbumTitle] = metadataItem.stringValue as NSObject?
+                case AVMetadataKey.commonKeyArtist		: self.nowPlayingInfo?[MPMediaItemPropertyArtist] = metadataItem.stringValue as NSObject?
+                case AVMetadataKey.commonKeyArtwork		:
 					if
 						let _data = metadataItem.dataValue,
 						let _image = UIImage(data: _data) {
