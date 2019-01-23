@@ -202,7 +202,7 @@ open class AudioPlayerManager: NSObject {
 			if (clearQueue == true) {
 				self.clearQueue()
 			} else {
-				self.player?.seek(to: CMTimeMake(0, 1))
+                self.player?.seek(to: CMTimeMake(value: 0, timescale: 1))
 				self.pause()
 			}
 			self.callPlayStateChangeCallbacks()
@@ -252,7 +252,7 @@ open class AudioPlayerManager: NSObject {
 			}
 		} else {
 			// Move to the beginning of the track if we aren't in the beginning.
-			self.player?.seek(to: CMTimeMake(0, 1))
+            self.player?.seek(to: CMTimeMake(value: 0, timescale: 1))
 			// Update the now playing info to show the new playback time
 			self.updateNowPlayingInfoIfNeeded()
 			// Call the callbacks to inform about the new time
@@ -266,7 +266,7 @@ open class AudioPlayerManager: NSObject {
 
 	open func seek(toProgress progress: Float) {
 		let progressInSeconds = Int64(progress * (self.currentTrack?.durationInSeconds() ?? 0))
-		let time = CMTimeMake(progressInSeconds, 1)
+        let time = CMTimeMake(value: progressInSeconds, timescale: 1)
 		self.seek(toTime: time)
 	}
 
@@ -367,7 +367,7 @@ open class AudioPlayerManager: NSObject {
 	// MARK: - Initializaiton
 
 	fileprivate func setupAudioSession() {
-		let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        let _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
 		let _ = try? AVAudioSession.sharedInstance().setActive(true)
 	}
 

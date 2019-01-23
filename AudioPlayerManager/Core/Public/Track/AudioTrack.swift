@@ -46,7 +46,7 @@ open class AudioTrack : NSObject {
 	// MARK: - Helper
 
 	open func durationInSeconds() -> Float? {
-		guard let _playerItem = self.playerItem, _playerItem.duration != kCMTimeIndefinite else {
+        guard let _playerItem = self.playerItem, _playerItem.duration != CMTime.indefinite else {
 			return nil
 		}
 		return Float(CMTimeGetSeconds(_playerItem.duration))
