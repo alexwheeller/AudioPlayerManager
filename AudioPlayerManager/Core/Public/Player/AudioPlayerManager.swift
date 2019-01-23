@@ -367,7 +367,11 @@ open class AudioPlayerManager: NSObject {
 	// MARK: - Initializaiton
 
 	fileprivate func setupAudioSession() {
-        let _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        if #available(iOS 10.0, *) {
+            let _ = try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        } else {
+            // Fallback on earlier versions
+        }
 		let _ = try? AVAudioSession.sharedInstance().setActive(true)
 	}
 
